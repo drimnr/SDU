@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,8 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Horizontal_Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
+import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
-import org.firstinspires.ftc.teamcode.hardware.RoadRunner.drive.SampleMecanumDrive;
 
 @TeleOp(name="SduTeleop", group="1")
 
@@ -20,7 +18,7 @@ public class SDU_TeleOp extends LinearOpMode {
     Intake intake;
     Outtake outtake;
     Horizontal_Lift horlift;
-    SampleMecanumDrive drive;
+    MecanumBase mecanumBase;
     String mode = "MANUAL";
     boolean outtaketake = false, take = false, peredtake = false, borttake = false;
     @Override
@@ -28,12 +26,10 @@ public class SDU_TeleOp extends LinearOpMode {
         lift = new Lift(hardwareMap, telemetry);
         outtake = new Outtake(hardwareMap, telemetry);
         intake = new Intake(hardwareMap, telemetry);
-        drive = new SampleMecanumDrive(hardwareMap);
         horlift = new Horizontal_Lift(hardwareMap, telemetry);
+        mecanumBase = new MecanumBase(hardwareMap, telemetry);
 
 
-
-        drive.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(180)));
 
         telemetry.addData("Status", "Initialized");
         //telemetry.addData("Right Stick Y", gamepad2.right_stick_y);
@@ -208,52 +204,12 @@ public class SDU_TeleOp extends LinearOpMode {
 
 
     public void reset() {
-        drive.setPoseEstimate(drive.getPoseEstimate());
+
     }
     public void field_centric() {
-        Pose2d poseEstimate = drive.getPoseEstimate();
 
-        // Create a vector from the gamepad x/y inputs
-        // Then, rotate that vector by the inverse of that heading
-        Vector2d input = new Vector2d(
-                -gamepad1.left_stick_y,
-                -gamepad1.left_stick_x
-        ).rotated(-poseEstimate.getHeading());
-
-        // Pass in the rotated input + right stick value for rotation
-        // Rotation is not part of the rotated input thus must be passed in separately
-        drive.setWeightedDrivePower(
-                new Pose2d(
-                        input.getX(),
-                        input.getY(),
-                        -gamepad1.right_stick_x
-                )
-        );
-
-        // Update everything. Odometry. Etc.
-        drive.update();
     }
     public void robot_centric() {
-        Pose2d poseEstimate = drive.getPoseEstimate();
-
-        // Create a vector from the gamepad x/y inputs
-        // Then, rotate that vector by the inverse of that heading
-        Vector2d input = new Vector2d(
-                -gamepad1.left_stick_y,
-                -gamepad1.left_stick_x
-        );
-
-        // Pass in the rotated input + right stick value for rotation
-        // Rotation is not part of the rotated input thus must be passed in separately
-        drive.setWeightedDrivePower(
-                new Pose2d(
-                        input.getX(),
-                        input.getY(),
-                        -gamepad1.right_stick_x
-                )
-        );
-
-        // Update everything. Odometry. Etc.
-        drive.update();
+        mecanumBase.move(gamepad1);
     }
 }
