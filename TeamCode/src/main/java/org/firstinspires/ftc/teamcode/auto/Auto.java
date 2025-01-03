@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.hardware.RoadRunner.drive.SampleMecanumDri
 @Config
 @Autonomous(name = "Auto 4 specimen")
 public class Auto extends LinearOpMode {
-    public static int specup = 650, specup2=1120;
+    public static int specup = 640, specup2=1200;
     Intake intake;
     Outtake outtake;
     Lift lift;
@@ -25,9 +25,9 @@ public class Auto extends LinearOpMode {
     SampleMecanumDrive drive;
     Pose2d startpose = new Pose2d(0, 0, 0);
     public static Pose2d P1 = new Pose2d(32, 0, 0);
-    public static Pose2d P2 = new Pose2d(19, -27, Math.toRadians(321.7));
-    public static Pose2d P3 = new Pose2d(19.6, -35.5, Math.toRadians(321.7));
-    public static Pose2d P4 = new Pose2d(19, -46.19, Math.toRadians(321.7));
+    public static Pose2d P2 = new Pose2d(19-0.9, -27+0.6, Math.toRadians(321.7));
+    public static Pose2d P3 = new Pose2d(19.6-0.7, -35.5+2, Math.toRadians(321.7));
+    public static Pose2d P4 = new Pose2d(19-2.7, -46.19+0.3, Math.toRadians(321.7));
     public static Pose2d P5 = new Pose2d(18.59, -29.3, Math.toRadians(210.416));
     public static Pose2d P6 = new Pose2d(0, -29.3, 0);
     public static Pose2d p = new Pose2d();
@@ -156,7 +156,7 @@ public class Auto extends LinearOpMode {
                     outtake.setZad_take();
                     outtake.release();
                 })
-                .lineToLinearHeading(new Pose2d(P6.getX()+0.5, P6.getY()-5, 0),
+                .lineToLinearHeading(new Pose2d(P6.getX()-1.5, P6.getY()-5, 0),
                         SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
@@ -169,7 +169,7 @@ public class Auto extends LinearOpMode {
                     outtake.setspecimen();
                     lift.set_target_position(specup);
                 })
-                .splineToLinearHeading(new Pose2d(P1.getX()+1.3, P1.getY()+3, P1.getHeading()), 0,
+                .splineToLinearHeading(new Pose2d(P1.getX()+1.6, P1.getY()+3, P1.getHeading()), 0,
                         SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
@@ -183,7 +183,7 @@ public class Auto extends LinearOpMode {
                     lift.set_target_position(0);
                 })
 
-                .splineToLinearHeading(new Pose2d(P6.getX()-2, P6.getY()-7, 0), Math.PI,
+                .splineToLinearHeading(new Pose2d(P6.getX()-3, P6.getY()-7, 0), Math.PI,
                         SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
@@ -196,7 +196,7 @@ public class Auto extends LinearOpMode {
                     outtake.setspecimen();
                     lift.set_target_position(specup);
                 })
-                .splineToLinearHeading(new Pose2d(P1.getX()+3, P1.getY()+1.5, P1.getHeading()),0.3,
+                .splineToLinearHeading(new Pose2d(P1.getX()+2.1, P1.getY()+1.5, P1.getHeading()),0.3,
                         SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
@@ -212,7 +212,7 @@ public class Auto extends LinearOpMode {
                     lift.set_target_position(0);
                 })
 
-                .splineToLinearHeading(new Pose2d(P6.getX()-2, P6.getY()-7, 0), Math.PI,
+                .splineToLinearHeading(new Pose2d(P6.getX()-4, P6.getY()-7, -Math.toRadians(10)), Math.PI,
                         SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
@@ -225,7 +225,7 @@ public class Auto extends LinearOpMode {
                     outtake.setspecimen();
                     lift.set_target_position(specup);
                 })
-                .splineToLinearHeading(new Pose2d(P1.getX()+3, P1.getY()+0, P1.getHeading()),0.3,
+                .splineToLinearHeading(new Pose2d(P1.getX()+3.2, P1.getY()+6, -Math.toRadians(10)),0.3,
                         SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
@@ -241,7 +241,7 @@ public class Auto extends LinearOpMode {
                     lift.set_target_position(0);
                 })
 
-                .splineToLinearHeading(new Pose2d(P6.getX()-2, P6.getY()-7, 0), Math.PI,
+                .splineToLinearHeading(new Pose2d(P6.getX()-4, P6.getY()-7, 0), Math.PI,
                         SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))

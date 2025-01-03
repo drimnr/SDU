@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.google.ar.core.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,7 +16,7 @@ import org.firstinspires.ftc.teamcode.hardware.RoadRunner.drive.SampleMecanumDri
 
 @Config
 @Autonomous(group = "test")
-public class AutoTest extends LinearOpMode {
+public class AutoTestRotate extends LinearOpMode {
     public static int specup = 650, specup2=1200;
     Intake intake;
     Outtake outtake;
@@ -27,7 +25,7 @@ public class AutoTest extends LinearOpMode {
     SampleMecanumDrive drive;
     Pose2d startpose = new Pose2d(0, 0, 0);
     public static Pose2d P1 = new Pose2d(32, 0, 0);
-    public static Pose2d P2 = new Pose2d(19-1, -27+2.8, Math.toRadians(321.7));
+    public static Pose2d P2 = new Pose2d(19-1, -27+2.52, Math.toRadians(321.7));
     public static Pose2d P3 = new Pose2d(19.6-1.5, -35.5+2, Math.toRadians(321.7));
     public static Pose2d P4 = new Pose2d(19-0.6, -46.19, Math.toRadians(321.7));
     public static Pose2d P5 = new Pose2d(18.59, -29.3, Math.toRadians(210.416));
@@ -91,6 +89,7 @@ public class AutoTest extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     horlift.open();
                     intake.setmidpovishe_take();
+                    intake.auto_rotate();
                     intake.open();
                 })
                 .build();
@@ -158,6 +157,7 @@ public class AutoTest extends LinearOpMode {
         Trajectory tr8 = drive.trajectoryBuilder(tr7.end())
                 .addTemporalMarker(0, () -> {
                     horlift.close();
+
                     intake.setperedacha();
                     intake.close();
                     outtake.setZad_take();
@@ -285,6 +285,7 @@ public class AutoTest extends LinearOpMode {
                     break;
                 case A6:
                     intake.open();
+                    intake.rotate_mid();
                     if (!drive.isBusy()) {
                         drive.followTrajectoryAsync(tr7);
                         currentState = State.A7;
