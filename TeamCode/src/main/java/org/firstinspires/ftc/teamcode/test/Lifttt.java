@@ -34,7 +34,7 @@ public class Lifttt extends LinearOpMode {
             else {
                 if (gamepad2.a) {
                     mode = "PID";
-                    lift.set_target_positiontohigh();
+                    lift.set_to_high_basket();
                 }
                 lift.setpower1(gamepad2.left_stick_y);
             }

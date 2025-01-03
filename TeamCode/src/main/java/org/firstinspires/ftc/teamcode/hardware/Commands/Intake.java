@@ -88,7 +88,7 @@ public class Intake {
     public static double arm_up = 0;
     public static double arm_mid = 0.42;
     public static double arm_down = 0.5;
-    public static double wrist_down = 0, wrist_pered = 0.78, wrist_mid = 0.25;
+    public static double wrist_down = 0.02, wrist_pered = 0.78, wrist_mid = 0.25;
 
     public void setmid_take() {
         arm.setPosition(arm_mid);

@@ -10,10 +10,13 @@ import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
 
-@TeleOp(name="SduTeleop", group="1")
+@TeleOp(name="Sdu linear teleop", group="Linear")
 
 public class SDU_TeleOp extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
+    ElapsedTime timerbt = new ElapsedTime();
+    ElapsedTime timer1 = new ElapsedTime();
+    ElapsedTime timerpd = new ElapsedTime();
     Lift lift;
     Intake intake;
     Outtake outtake;
@@ -40,13 +43,13 @@ public class SDU_TeleOp extends LinearOpMode {
         outtake.release();
         waitForStart();
 
-        ElapsedTime timer = new ElapsedTime();
-        ElapsedTime timerbt = new ElapsedTime();
-        ElapsedTime timer1 = new ElapsedTime();
-        ElapsedTime timerpd = new ElapsedTime();
-        timer1.reset();
+
         timer.reset();
-        // run until the end of the match (driver presses STOP)
+        timerbt.reset();
+        timer1.reset();
+        timerpd.reset();
+
+
         while (opModeIsActive()) {
             // intake
             if (gamepad1.dpad_up) {
@@ -98,6 +101,7 @@ public class SDU_TeleOp extends LinearOpMode {
             }
             //horizontal lift
             if (gamepad2.left_bumper) {
+                outtake.setPered_take();
                 horlift.close();
             }
 
@@ -106,21 +110,13 @@ public class SDU_TeleOp extends LinearOpMode {
             //outtake
             if (gamepad2.dpad_up) {
                 outtaketake = true;
-                outtake.setPered_take();
-                outtake.mayat_up();
+                outtake.grab();
                 timer.reset();
             }
-            if (outtaketake && timer.milliseconds() > 250) {
-                outtake.grab();
-            }
-            if (outtaketake && timer.milliseconds() > 800) {
+            if (outtaketake && timer.milliseconds() > 300) {
                 intake.setmid_take();
                 intake.open();
-                outtake.mayat_mid();
-            }
-            if (outtaketake && timer.milliseconds() > 800) {
-                outtake.sethb();
-                outtaketake = false;
+                outtake.mayat_mid();outtake.sethb();outtaketake = false;
             }
             if (gamepad1.a || gamepad2.dpad_down) {
                 outtake.release();
@@ -180,7 +176,7 @@ public class SDU_TeleOp extends LinearOpMode {
             else {
                 if (gamepad2.left_stick_button) {
                     mode = "PID";
-                    lift.set_target_positiontohigh();
+                    lift.set_to_high_chamber();
                 }
                 lift.setpower1(gamepad2.right_stick_y);
             }

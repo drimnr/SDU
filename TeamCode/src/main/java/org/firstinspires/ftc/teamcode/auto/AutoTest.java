@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.google.ar.core.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,8 +17,8 @@ import org.firstinspires.ftc.teamcode.hardware.RoadRunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.hardware.RoadRunner.drive.SampleMecanumDrive;
 
 @Config
-@Autonomous(name = "Auto 4 specimen")
-public class Auto extends LinearOpMode {
+@Autonomous(group = "test")
+public class AutoTest extends LinearOpMode {
     public static int specup = 650, specup2=1120;
     Intake intake;
     Outtake outtake;
@@ -148,7 +150,7 @@ public class Auto extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(60))
 
                 .build();
-        Trajectory r = drive.trajectoryBuilder(tr7.end())
+        Trajectory tr8 = drive.trajectoryBuilder(tr7.end())
                 .addTemporalMarker(0, () -> {
                     horlift.close();
                     intake.setperedacha();
@@ -161,7 +163,7 @@ public class Auto extends LinearOpMode {
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
                 .build();
-        Trajectory specimen1 = drive.trajectoryBuilder(r.end())
+        Trajectory tr9 = drive.trajectoryBuilder(tr8.end())
                 .addTemporalMarker(0, () -> {
                     sleep(200);
                     outtake.grab();
@@ -175,7 +177,7 @@ public class Auto extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(37))
 
                 .build();
-        Trajectory r1 = drive.trajectoryBuilder(specimen1.end(), true)
+        Trajectory tr10 = drive.trajectoryBuilder(tr9.end(), true)
 
                 .addTemporalMarker(0, () -> {
                     outtake.setZad_take();
@@ -188,7 +190,7 @@ public class Auto extends LinearOpMode {
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
                 .build();
-        Trajectory specimen2 = drive.trajectoryBuilder(r1.end())
+        Trajectory tr11 = drive.trajectoryBuilder(tr10.end())
                 .addTemporalMarker(0, () -> {
                     sleep(200);
                     outtake.grab();
@@ -204,20 +206,7 @@ public class Auto extends LinearOpMode {
 
                 })
                 .build();
-        Trajectory r2 = drive.trajectoryBuilder(specimen2.end(), true)
-
-                .addTemporalMarker(0, () -> {
-                    outtake.setZad_take();
-                    outtake.release();
-                    lift.set_target_position(0);
-                })
-
-                .splineToLinearHeading(new Pose2d(P6.getX()-2, P6.getY()-7, 0), Math.PI,
-                        SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
-                                DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(37))
-                .build();
-        Trajectory specimen3 = drive.trajectoryBuilder(r2.end())
+        Trajectory tr15 = drive.trajectoryBuilder(tr10.end())
                 .addTemporalMarker(0, () -> {
                     sleep(200);
                     outtake.grab();
@@ -233,18 +222,21 @@ public class Auto extends LinearOpMode {
 
                 })
                 .build();
-        Trajectory r3 = drive.trajectoryBuilder(specimen3.end(), true)
-
+        Trajectory tr13 = drive.trajectoryBuilder(tr10.end())
                 .addTemporalMarker(0, () -> {
-                    outtake.setZad_take();
-                    outtake.release();
-                    lift.set_target_position(0);
+                    sleep(200);
+                    outtake.grab();
+                    sleep(200);
+                    outtake.setspecimen();
+                    lift.set_target_position(specup);
                 })
-
-                .splineToLinearHeading(new Pose2d(P6.getX()-2, P6.getY()-7, 0), Math.PI,
+                .splineToLinearHeading(new Pose2d(P1.getX()+3, P1.getY()+10, P1.getHeading()),0.3,
                         SampleMecanumDrive.getVelocityConstraint(65, DriveConstants.MAX_ANG_VEL,
                                 DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(37))
+                .addDisplacementMarker(() -> {
+
+                })
                 .build();
         waitForStart();
         lift.set_target_position(specup);
@@ -299,7 +291,7 @@ public class Auto extends LinearOpMode {
                 case A7: // бросил 3 сэмпл к хюмену
 
                     if (!drive.isBusy()) {
-                        drive.followTrajectoryAsync(r);
+                        drive.followTrajectoryAsync(tr8);
                         currentState = State.R;
                     }
                     break;
@@ -308,7 +300,7 @@ public class Auto extends LinearOpMode {
                     intake.open();
                     horlift.close();
                     if (!drive.isBusy()) {
-                        drive.followTrajectoryAsync(specimen1);
+                        drive.followTrajectoryAsync(tr9);
                         currentState = State.SP1;
                     }
                     break;
@@ -321,13 +313,13 @@ public class Auto extends LinearOpMode {
                             lift.update_pid();
                         }
                         outtake.release();
-                        drive.followTrajectoryAsync(r1);
+                        drive.followTrajectoryAsync(tr10);
                         currentState = State.R1;
                     }
                     break;
                 case R1:
                     if (!drive.isBusy()) {
-                        drive.followTrajectoryAsync(specimen2);
+                        drive.followTrajectoryAsync(tr11);
                         currentState = State.SP2;
                     }
                     break;
@@ -340,13 +332,13 @@ public class Auto extends LinearOpMode {
                             lift.update_pid();
                         }
                         outtake.release();
-                        drive.followTrajectoryAsync(r2);
+                        drive.followTrajectoryAsync(tr10);
                         currentState = State.R2;
                     }
                     break;
                 case R2:
                     if (!drive.isBusy()) {
-                        drive.followTrajectoryAsync(specimen3);
+                        drive.followTrajectoryAsync(tr15);
                         currentState = State.SP3;
                     }
                     break;
@@ -359,18 +351,36 @@ public class Auto extends LinearOpMode {
                             lift.update_pid();
                         }
                         outtake.release();
-                        drive.followTrajectoryAsync(r3);
+                        drive.followTrajectoryAsync(tr10);
                         currentState = State.R3;
                     }
                     break;
                 case R3:
                     intake.setmidpovishe_take();
                     if (!drive.isBusy()) {
+                        drive.followTrajectoryAsync(tr13);
+                        currentState = State.SP4;
+                    }
+                    break;
+                case SP4:
+                    if (!drive.isBusy()) {
+                        ElapsedTime timer = new ElapsedTime();
+                        timer.reset();
+                        lift.set_target_position(specup2);
+                        while(timer.milliseconds() < 600) {
+                            lift.update_pid();
+                        }
+                        outtake.release();
+                        drive.followTrajectoryAsync(tr10);
+                        currentState = State.R4;
+                    }
+                    break;
+                case R4:
+                    if (!drive.isBusy()) {
                         currentState = State.IDLE;
                     }
                     break;
                 case IDLE:
-
                     break;
             }
             drive.update();
