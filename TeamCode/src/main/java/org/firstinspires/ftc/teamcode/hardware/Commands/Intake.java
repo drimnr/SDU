@@ -17,7 +17,7 @@ public class Intake {
     private boolean intakeInitialized = false;
 
     public static double
-            open = 0.4,
+            open = 0.3,
             close = 0;
 
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -64,8 +64,8 @@ public class Intake {
     }
 
     public static double mid = 0.24;
-    public static double left = 0.08;
-    public static double right = 0.4;
+    public static double left = 0.03;
+    public static double right = 0.45;
 
     public void rotate_mid() {
         if (intakeInitialized) {

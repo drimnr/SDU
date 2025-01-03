@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Lift {
     HardwareMap hardwareMap;
     Telemetry telemetry;
-    public static int high_basket = 2050;
+    public static int high_chamber = 550;
     DcMotor lift_l, lift_r;
     public static double kp = 0.013, kd = 0.1, ki = 0.0001, kf = 0.00002;
     PIDFController pidfController;
@@ -81,7 +81,7 @@ public class Lift {
         telemetry.update();
     }
     public void set_target_positiontohigh() {
-        set_target_position(high_basket);
+        set_target_position(high_chamber);
     }
     public void setpower1(double power) {
         power = -power;

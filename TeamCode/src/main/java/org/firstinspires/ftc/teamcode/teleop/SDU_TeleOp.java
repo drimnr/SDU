@@ -122,12 +122,12 @@ public class SDU_TeleOp extends LinearOpMode {
                 outtake.sethb();
                 outtaketake = false;
             }
-            if (gamepad1.a) {
+            if (gamepad1.a || gamepad2.dpad_down) {
                 outtake.release();
                 outtake.mayat_down();
                 outtake.setZad_take();
             }
-            if (gamepad1.y) {
+            if (gamepad1.y || gamepad2.dpad_left) {
                 timerbt.reset();
                 borttake = true;
                 outtake.grab();
@@ -181,7 +181,6 @@ public class SDU_TeleOp extends LinearOpMode {
                 if (gamepad2.left_stick_button) {
                     mode = "PID";
                     lift.set_target_positiontohigh();
-                    outtake.mayat_mid();
                 }
                 lift.setpower1(gamepad2.right_stick_y);
             }

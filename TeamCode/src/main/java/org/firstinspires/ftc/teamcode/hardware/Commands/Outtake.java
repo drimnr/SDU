@@ -27,7 +27,7 @@ public class Outtake {
             open = 0.35,
             close = 0,
             pered_take = 0,
-            zad_take = 0.35,
+            zad_take = 0.39,
             spec = 0.43,
             hb = 0.65;
 
